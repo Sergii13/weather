@@ -1,0 +1,33 @@
+:root {
+  --mainBg: #152026;
+  --lightGreenColor: rgba(11, 85, 110, 0.7);
+  --greenColor: #0091bf;
+  --darkColor: rgba(17, 19, 23, 0.7);
+  --mainColor: #fff;
+}
+
+[class*='__container'] {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+body {
+  font-size: 18px;
+  background: var(--mainBg);
+  color: var(--mainColor);
+  height: 100%;
+  img {
+    max-width: 100%;
+  }
+}
+main {
+  flex: 1 1 auto;
+}
+$tablet: em(991.98); // Планшети, деякі телефони в горизонтальному положенні
+$mobile: em(767.98); // Телефони L
+$mobileSmall: em(479.98); // Телефони S

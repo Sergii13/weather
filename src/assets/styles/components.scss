@@ -1,0 +1,29 @@
+.input {
+  height: 50px;
+  border-radius: 10px;
+  display: block;
+  width: 100%;
+  padding: 3px 20px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.5, 0.02, 0.13, 0.5);
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0px 3px var(--greenColor);
+  }
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border-radius: 10px;
+  background: var(--greenColor);
+  font-size: 20px;
+  padding: 10px 30px;
+  transition: all 0.3s cubic-bezier(0.5, 0.02, 0.13, 0.5);
+}
