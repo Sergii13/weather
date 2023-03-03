@@ -23,7 +23,7 @@
     <div class="card__error" v-if="errors">
       {{ errors }}
     </div>
-    <SpinnerApp v-if="isLoading" />
+    <SpinnerWeather v-if="isLoading" />
     <div v-if="data" class="card__main-block">
       <div class="card__tab">
         <button
@@ -111,12 +111,12 @@ import PressureIcon from '@/assets/images/icons/pressure.svg'
 import WindIcon from '@/assets/images/icons/wind.svg'
 import HeartIcon from '@/assets/images/icons/heart.svg'
 import DeleteIcon from '@/assets/images/icons/delete.svg'
-import SpinnerApp from '@/components/SpinnerApp.vue'
+import SpinnerWeather from '@/components/SpinnerWeather.vue'
 import Chart from 'chart.js/auto'
+import { normalizeDataDays, normalizeDataToday } from '@/helpers/normalizeData.js'
 import { getCoordinates } from '@/api/wheather.js'
 import { useWheather } from '@/composables/wheather.js'
 import { onMounted, computed, ref, onUnmounted, defineEmits, watch } from 'vue'
-import { isBefore, endOfToday, fromUnixTime, lightFormat, addDays } from 'date-fns'
 import FormWeather from '@/components/FormWeather.vue'
 import { useRoute } from 'vue-router'
 
@@ -155,17 +155,9 @@ const currentFilter = ref('oneDay')
 
 const normalizeData = computed(() => {
   if (currentFilter.value === 'oneDay' && data.value) {
-    return data.value.hourly
-      .filter((date) => isBefore(fromUnixTime(date.dt), endOfToday()) === true)
-      .map((item) => {
-        return { ...item, dt: lightFormat(fromUnixTime(item.dt), 'HH:mm') }
-      })
+    return normalizeDataToday(data.value.hourly)
   } else if (currentFilter.value === 'fiveDay' && data.value) {
-    return data.value.daily
-      .filter((date) => isBefore(fromUnixTime(date.dt), addDays(new Date(), 4)) === true)
-      .map((item) => {
-        return { ...item, dt: lightFormat(fromUnixTime(item.dt), 'dd.MM.yy'), temp: item.temp.eve }
-      })
+    return normalizeDataDays(data.value.daily)
   }
 })
 

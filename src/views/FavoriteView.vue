@@ -50,7 +50,6 @@ const deleteItem = (id) => {
   }
 }
 
-const getStrorage = () => {}
 onMounted(() => {
   const cardsFavorited = getItem('favorited_cards')
   if (cardsFavorited) {

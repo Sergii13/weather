@@ -1,4 +1,7 @@
-import { axios, apiKey, apiKey2 } from '@/api/axios'
+import { axios } from '@/api/axios'
+
+const apiKey = '697badb530f4c8c5eeaa95144c6b2385'
+const apiKeyCities = 'f23e3b5c553e42349f0104507230303'
 
 export const getCurrentWheather = (city) => {
   return axios
@@ -12,6 +15,6 @@ export const getCoordinates = (city) => {
 }
 export const getCities = (query) => {
   return axios
-    .get(`https://api.weatherapi.com/v1/search.json?key=${apiKey2}&q=${query}`)
+    .get(`https://api.weatherapi.com/v1/search.json?key=${apiKeyCities}&q=${query}`)
     .then((response) => response)
 }
