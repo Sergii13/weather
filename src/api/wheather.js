@@ -7,11 +7,11 @@ export const getCurrentWheather = (city) => {
 }
 export const getCoordinates = (city) => {
   return axios
-    .get(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`)
+    .get(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKey}`)
     .then((response) => response.data[0])
 }
 export const getCities = (query) => {
   return axios
-    .get(`http://api.weatherapi.com/v1/search.json?key=${apiKey2}&q=${query}`)
+    .get(`https://api.weatherapi.com/v1/search.json?key=${apiKey2}&q=${query}`)
     .then((response) => response)
 }
