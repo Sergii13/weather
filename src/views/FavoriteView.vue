@@ -10,7 +10,7 @@
       :pageFavorited="true"
     />
   </div>
-  <ModalWeather :is-open="isModalOpen" @close="handleModalClose">
+  <ModalWeather :is-open="arrModals[0].isModalOpen" @close="handleModalClose">
     <template #popup-text>
       Delete this card??
       <div class="popup__buttons">
@@ -23,32 +23,12 @@
 
 <script setup>
 import CardWeather from '@/components/CardWeather.vue'
-import { setItem, getItem } from '@/helpers/persistanceStorage.js'
-import { ref, onMounted, computed } from 'vue'
+import { getItem } from '@/helpers/persistanceStorage.js'
+import { onMounted } from 'vue'
 import ModalWeather from '@/components/ModalWeather.vue'
+import { useCards } from '@/composables/cards'
 
-const cards = ref([])
-
-const isModalOpen = ref(false)
-const handleModalClose = () => {
-  document.documentElement.classList.remove('popup-show')
-  isModalOpen.value = false
-}
-
-const deleteId = ref(null)
-
-const deleteItem = (id) => {
-  if (!isModalOpen.value) {
-    deleteId.value = id
-    document.documentElement.classList.add('popup-show')
-    isModalOpen.value = true
-  } else {
-    cards.value = cards.value.filter((item) => item.id !== deleteId.value)
-    setItem('favorited_cards', cards.value)
-    deleteId.value = null
-    handleModalClose()
-  }
-}
+const { cards, arrModals, handleModalClose, deleteItem } = useCards(true)
 
 onMounted(() => {
   const cardsFavorited = getItem('favorited_cards')

@@ -18,8 +18,6 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
-
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -28,11 +26,6 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
-watch(props.isOpen, (oldVlaue, newValue) => {
-  console.log(newValue)
-  if (newValue === true) {
-  }
-})
 const handleClose = () => {
   emit('close')
 }
@@ -56,6 +49,7 @@ const handleClose = () => {
 body::after {
   content: '';
   background: rgba(20, 20, 20, 0.81);
+  backdrop-filter: blur(20px);
   position: fixed;
   width: 100%;
   height: 100%;

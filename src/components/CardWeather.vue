@@ -96,10 +96,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="card__graphik">
-      <div class="card__graphik-title">Chart Temparerature</div>
-      <canvas ref="chartRef"></canvas>
+      <ChartWeather :data="normalizeData" />
     </div>
   </div>
 </template>
@@ -112,12 +109,12 @@ import WindIcon from '@/assets/images/icons/wind.svg'
 import HeartIcon from '@/assets/images/icons/heart.svg'
 import DeleteIcon from '@/assets/images/icons/delete.svg'
 import SpinnerWeather from '@/components/SpinnerWeather.vue'
-import Chart from 'chart.js/auto'
+import ChartWeather from '@/components/ChartWeather.vue'
+import FormWeather from '@/components/FormWeather.vue'
 import { normalizeDataDays, normalizeDataToday } from '@/helpers/normalizeData.js'
 import { getCoordinates } from '@/api/wheather.js'
 import { useWheather } from '@/composables/wheather.js'
-import { onMounted, computed, ref, onUnmounted, defineEmits, watch } from 'vue'
-import FormWeather from '@/components/FormWeather.vue'
+import { onMounted, computed, ref, defineEmits } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -151,8 +148,8 @@ const handleFavorited = () => {
   timerHeart = setTimeout(animateHeart, 1000)
   emit('addFavorited', props.card.id, props.card.isFavorited)
 }
-const currentFilter = ref('oneDay')
 
+const currentFilter = ref('oneDay')
 const normalizeData = computed(() => {
   if (currentFilter.value === 'oneDay' && data.value) {
     return normalizeDataToday(data.value.hourly)
@@ -161,84 +158,19 @@ const normalizeData = computed(() => {
   }
 })
 
-const weatherChartData = computed(() => ({
-  type: 'line',
-  color: 'rgb(75, 192, 192)',
-  data: {
-    labels: normalizeData.value?.map((item) => item.dt),
-    datasets: [
-      {
-        label: false,
-        data: normalizeData.value?.map((item) => item.temp),
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.4
-      }
-    ]
-  },
-  options: {
-    plugins: {
-      legend: {
-        display: false
-      }
-    },
-    scales: {
-      x: {
-        display: true,
-        ticks: {
-          color: '#fff'
-        },
-        title: {
-          display: true,
-          text: 'Date',
-          color: '#0091BF'
-        }
-      },
-      y: {
-        display: true,
-        ticks: {
-          color: '#fff'
-        },
-        title: {
-          display: true,
-          text: 'Temp °C',
-          color: '#0091BF'
-        }
-      }
-    }
-  }
-}))
-
-const chartRef = ref()
-
-let chart
-const renderChart = () => {
-  chart = new Chart(chartRef.value, weatherChartData.value)
-}
-
 const city = ref({})
 
 const getDataWeather = (cityInfo) => {
   if (cityInfo.lat && cityInfo.lon) {
     city.value = cityInfo
-    getData({ city: city.value }).then((res) => {
-      if (chart) {
-        chart.destroy()
-      }
-      renderChart()
-    })
+    getData({ city: city.value }).then((res) => {})
   } else {
     getCoordinates(cityInfo.name).then((res) => {
       res
         ? (city.value = { lat: res.lat, lon: res.lon, name: res.name })
         : (city.value = { lat: null, lon: null, name: '' })
 
-      getData({ city: city.value }).then((res) => {
-        if (chart) {
-          chart.destroy()
-        }
-        renderChart()
-      })
+      getData({ city: city.value })
     })
   }
 }
@@ -252,20 +184,9 @@ onMounted(() => {
   getDataWeather(props.card.city)
 })
 
-watch(normalizeData, () => {
-  if (chart) {
-    chart.destroy()
-    renderChart()
-  }
-})
-onUnmounted(() => {
-  if (chart) {
-    chart.destroy()
-  }
-})
 const normalizeVisibility = computed(() => {
   if (data.value) {
-    return parseFloat(data.value.current.visibility / 1000).toFixed(1)
+    return parseFloat(data.value.current.visibility / 1000).toFixed(2)
   }
 })
 
@@ -355,17 +276,6 @@ const iconWeather = computed(() => {
   &__info {
   }
   // .card__graphik
-  &__graphik {
-  }
-  // .card__graphik-title
-  &__graphik-title {
-    font-weight: 700;
-    margin-bottom: 20px;
-    font-size: 30px;
-    @media (max-width: $mobile) {
-      font-size: 20px;
-    }
-  }
 }
 
 .card__error {

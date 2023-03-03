@@ -11,7 +11,7 @@
       :index="index"
     />
   </div>
-  <ModalWeather :is-open="isModalOpen" @close="handleModalClose">
+  <ModalWeather :is-open="arrModals[0].isModalOpen" @close="handleModalClose">
     <template #popup-text>
       Delete this card??
       <div class="popup__buttons">
@@ -20,7 +20,7 @@
       </div>
     </template>
   </ModalWeather>
-  <ModalWeather :is-open="isModalOpenWarn" @close="handleModalClose">
+  <ModalWeather :is-open="arrModals[1].isModalOpen" @close="handleModalClose">
     <template #popup-text> Maximum 5 items, delete current ones to add new ones </template>
   </ModalWeather>
 </template>
@@ -32,21 +32,15 @@ import { uuid } from 'vue-uuid'
 import { getIp } from '@/api/getIp'
 import { ref, onMounted, computed } from 'vue'
 import ModalWeather from '@/components/ModalWeather.vue'
+import { useCards } from '@/composables/cards'
 
 let defaultCity = {
   name: 'Ternopil',
   lat: '',
   lon: ''
 }
-const cards = ref([])
+const { cards, arrModals, handleModalClose, deleteItem } = useCards()
 const list = ref(null)
-const isModalOpen = ref(false)
-const isModalOpenWarn = ref(false)
-const handleModalClose = () => {
-  document.documentElement.classList.remove('popup-show')
-  isModalOpen.value = false
-  isModalOpenWarn.value = false
-}
 
 const handleClick = () => {
   if (cards.value.length < 5) {
@@ -61,18 +55,7 @@ const handleClick = () => {
     }, 300)
   }
 }
-const deleteId = ref(null)
-const deleteItem = (id) => {
-  if (!isModalOpen.value) {
-    deleteId.value = id
-    document.documentElement.classList.add('popup-show')
-    isModalOpen.value = true
-  } else {
-    cards.value = cards.value.filter((item) => item.id !== deleteId.value)
-    deleteId.value = null
-    handleModalClose()
-  }
-}
+
 const changeCity = (newCity, id) => {
   cards.value = cards.value.map((item) => {
     if (item.id === id) {
@@ -92,9 +75,8 @@ const addFavorited = (id) => {
     cardsWithStorage.push({ ...currentItem, id: uuid.v4() })
     setItem('favorited_cards', cardsWithStorage)
   } else {
-    console.log(cardsWithStorage)
     document.documentElement.classList.add('popup-show')
-    isModalOpenWarn.value = true
+    arrModals.value[1].isModalOpen = true
   }
 }
 onMounted(() => {
