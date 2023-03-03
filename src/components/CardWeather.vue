@@ -135,7 +135,7 @@ const props = defineProps({
     required: true
   }
 })
-const emit = defineEmits(['deleteItem', 'changeCity', 'changeFavorited'])
+const emit = defineEmits(['deleteItem', 'changeCity', 'addFavorited'])
 const handleRemove = () => {
   emit('deleteItem', props.card.id)
 }
@@ -149,7 +149,7 @@ const animateHeart = () => {
 const handleFavorited = () => {
   isClickedHeart.value = true
   timerHeart = setTimeout(animateHeart, 2000)
-  emit('changeFavorited', props.card.id, props.card.isFavorited)
+  emit('addFavorited', props.card.id, props.card.isFavorited)
 }
 const currentFilter = ref('oneDay')
 

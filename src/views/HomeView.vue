@@ -92,6 +92,7 @@ const addFavorited = (id) => {
     cardsWithStorage.push({ ...currentItem, id: uuid.v4() })
     setItem('favorited_cards', cardsWithStorage)
   } else {
+    console.log(cardsWithStorage)
     document.documentElement.classList.add('popup-show')
     isModalOpenWarn.value = true
   }
