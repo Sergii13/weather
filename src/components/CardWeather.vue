@@ -148,7 +148,7 @@ const animateHeart = () => {
 }
 const handleFavorited = () => {
   isClickedHeart.value = true
-  timerHeart = setTimeout(animateHeart, 2000)
+  timerHeart = setTimeout(animateHeart, 1000)
   emit('addFavorited', props.card.id, props.card.isFavorited)
 }
 const currentFilter = ref('oneDay')

@@ -1,5 +1,5 @@
 <template>
-  <form @submit="handleSubmit" action="#" class="card__form form-card">
+  <form @submit.prev="handleSubmit" action="#" class="card__form form-card">
     <div class="form-card__item">
       <input
         :disabled="isFavorited"
