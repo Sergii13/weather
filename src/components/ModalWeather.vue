@@ -51,7 +51,7 @@ const handleClose = () => {
 }
 .popup-leave-active .popup__content,
 .popup-enter-active .popup__content {
-  transition: transform 0.6s ease 0s;
+  transition: transform 0.3s ease 0s;
 }
 body::after {
   content: '';

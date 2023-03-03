@@ -1,11 +1,11 @@
 <template>
   <button @click.prev="handleClick" class="add-new-card__button button">Add New Card</button>
-  <div class="cards">
+  <div ref="list" class="cards">
     <CardWeather
       v-for="(card, index) of cards"
       @delete-item="deleteItem"
       @change-city="changeCity"
-      @change-favorited="changeFavorited"
+      @add-favorited="addFavorited"
       :card="card"
       :key="card.id"
       :index="index"
@@ -39,7 +39,7 @@ let defaultCity = {
   lon: ''
 }
 const cards = ref([])
-
+const list = ref(null)
 const isModalOpen = ref(false)
 const isModalOpenWarn = ref(false)
 const handleModalClose = () => {
@@ -54,6 +54,11 @@ const handleClick = () => {
       city: defaultCity,
       id: uuid.v4()
     })
+    let timer = null
+    timer = setTimeout(() => {
+      list.value.lastElementChild.scrollIntoView({ behavior: 'smooth' })
+      clearTimeout(timer)
+    }, 300)
   }
 }
 const deleteId = ref(null)
@@ -77,7 +82,7 @@ const changeCity = (newCity, id) => {
     }
   })
 }
-const changeFavorited = (id) => {
+const addFavorited = (id) => {
   const currentItem = cards.value.find((item) => item.id === id)
   let cardsWithStorage = getItem('favorited_cards')
   if (!cardsWithStorage) {
@@ -87,12 +92,12 @@ const changeFavorited = (id) => {
     cardsWithStorage.push({ ...currentItem, id: uuid.v4() })
     setItem('favorited_cards', cardsWithStorage)
   } else {
-    console.log(cardsWithStorage)
     document.documentElement.classList.add('popup-show')
     isModalOpenWarn.value = true
   }
 }
 onMounted(() => {
+  list.value = document.getElementById('myList')
   getIp()
     .then((res) => {
       defaultCity = {
