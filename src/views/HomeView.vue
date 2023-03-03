@@ -112,14 +112,19 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 .add-new-card__button {
   margin-bottom: 20px;
   margin-left: auto;
   display: flex;
   max-width: 200px;
+  @media (max-width: $mobileSmall) {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 </style>

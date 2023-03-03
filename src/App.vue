@@ -64,6 +64,9 @@ import { RouterView } from 'vue-router'
 }
 .main-block {
   padding: 60px 0;
+  @media (max-width: $mobile) {
+    padding: 20px 0;
+  }
   // .main-block__container
   &__container {
   }

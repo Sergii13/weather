@@ -94,6 +94,9 @@ const searchCities = () => {
 
 <style lang="scss" scoped>
 .form-card {
+  @media (max-width: $mobileSmall) {
+    width: 100%;
+  }
   &__text {
     color: #000;
     width: 100%;
@@ -135,6 +138,11 @@ const searchCities = () => {
     display: flex;
     position: relative;
     gap: 10px;
+    @media (max-width: $mobileSmall) {
+      display: grid;
+      width: 100%;
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 }
 </style>

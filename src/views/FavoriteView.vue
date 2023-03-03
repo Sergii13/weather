@@ -61,9 +61,10 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
   &__not-found {
     text-align: center;
     margin-top: 100px;
@@ -76,5 +77,9 @@ onMounted(() => {
   margin-left: auto;
   display: flex;
   max-width: 200px;
+  @media (max-width: $mobileSmall) {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 </style>

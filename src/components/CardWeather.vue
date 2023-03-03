@@ -286,11 +286,18 @@ const iconWeather = computed(() => {
 
 <style lang="scss" scoped>
 .card {
+  width: calc(50% - 10px);
   padding: 30px;
   border-radius: 20px;
   background: var(--lightGreenColor);
   transition: all 0.3s cubic-bezier(0.5, 0.02, 0.13, 0.5);
   border: 3px solid transparent;
+  @media (max-width: $tablet) {
+    width: 100%;
+  }
+  @media (max-width: $mobile) {
+    padding: 10px;
+  }
   &.active {
     border: 3px solid var(--greenColor);
   }
@@ -299,7 +306,8 @@ const iconWeather = computed(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: rem(20);
+    flex-wrap: wrap;
+    gap: 10px;
     &:not(:last-child) {
       margin-bottom: 20px;
     }
@@ -311,6 +319,9 @@ const iconWeather = computed(() => {
     display: flex;
     align-items: center;
     gap: 20px;
+    @media (max-width: $mobile) {
+      gap: 10px;
+    }
   }
   &__actions-btn {
     width: 25px;
@@ -359,6 +370,9 @@ const iconWeather = computed(() => {
     font-weight: 700;
     margin-bottom: 20px;
     font-size: 30px;
+    @media (max-width: $mobile) {
+      font-size: 20px;
+    }
   }
 }
 
@@ -374,6 +388,9 @@ const iconWeather = computed(() => {
     font-size: 40px;
     font-weight: 700;
     margin-bottom: rem(20);
+    @media (max-width: $mobile) {
+      font-size: 30px;
+    }
   }
   // .info-card__head
   &__head {
@@ -389,11 +406,17 @@ const iconWeather = computed(() => {
   // .info-card__temp
   &__temp {
     font-size: 40px;
+    @media (max-width: $mobile) {
+      font-size: 30px;
+    }
   }
   // .info-card__descr
   &__descr {
     font-size: 22px;
     margin: 20px 0;
+    @media (max-width: $mobile) {
+      font-size: 16px;
+    }
   }
   // .info-card__list
   &__list {
@@ -401,6 +424,12 @@ const iconWeather = computed(() => {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    @media (max-width: $mobile) {
+      margin-bottom: 20px;
+    }
+    @media (max-width: $mobileSmall) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
   // .info-card__list-item
   &__list-item {
@@ -408,6 +437,9 @@ const iconWeather = computed(() => {
     display: flex;
     align-items: center;
     gap: 15px;
+    @media (max-width: $mobile) {
+      font-size: 16px;
+    }
   }
 }
 .info-card {
@@ -415,7 +447,7 @@ const iconWeather = computed(() => {
   &__row {
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     margin: 20px 0px;
     font-size: 14px;
   }
